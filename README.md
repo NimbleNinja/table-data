@@ -1,6 +1,6 @@
 # Data table for Sierentz
 
-Current project version on [Netlify]().
+Current project version on [Netlify](https://deft-pavlova-4e0b7e.netlify.app/).
 
 ## Description
 
