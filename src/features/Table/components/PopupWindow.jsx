@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import { popupData } from '../data-table';
 
-const styles = {
-  border: '1px solid #000',
-};
-
-const btnStyles = {
-  background: 'none',
-  padding: '5px',
-  textTransform: 'uppercase',
-  borderRadius: '5px',
-};
-
 const PopupWindow = ({ closePopup }) => {
   const [rowData, setRowData] = useState({
     value: 1,
@@ -19,8 +8,7 @@ const PopupWindow = ({ closePopup }) => {
     user: 'default user',
     comment: 'new comment',
   });
-
-  const [data, setData] = useState(popupData);
+  const [tableData, setTableData] = useState(popupData);
 
   const inputsHandler = e => {
     const { value, name } = e.target;
@@ -35,28 +23,28 @@ const PopupWindow = ({ closePopup }) => {
 
   return (
     <div className="popup">
-      <table style={{ ...styles, borderCollapse: 'collapse' }}>
+      <table>
         <thead>
-          <tr style={styles}>
-            <th style={styles}>Value</th>
-            <th style={styles}>Date</th>
-            <th style={styles}>User</th>
-            <th style={styles}>Comment</th>
+          <tr>
+            <th>Value</th>
+            <th>Date</th>
+            <th>User</th>
+            <th>Comment</th>
           </tr>
         </thead>
         <tbody>
-          {data.map(({ value, date, user, comment }, index) => {
+          {tableData.map(({ value, date, user, comment }, index) => {
             return (
-              <tr key={index} style={styles}>
-                <td style={styles}>{value}</td>
-                <td style={styles}>{date.toLocaleDateString()}</td>
-                <td style={styles}>{user}</td>
-                <td style={styles}>{comment}</td>
+              <tr key={index}>
+                <td>{value}</td>
+                <td>{date.toLocaleDateString()}</td>
+                <td>{user}</td>
+                <td>{comment}</td>
               </tr>
             );
           })}
-          <tr style={styles}>
-            <td style={styles}>
+          <tr>
+            <td>
               <input
                 value={value}
                 name="value"
@@ -64,7 +52,7 @@ const PopupWindow = ({ closePopup }) => {
                 type="number"
               />
             </td>
-            <td style={styles}>
+            <td>
               <input
                 value={date}
                 onChange={inputsHandler}
@@ -72,7 +60,7 @@ const PopupWindow = ({ closePopup }) => {
                 type="date"
               />
             </td>
-            <td style={styles}>
+            <td>
               <select
                 value={user}
                 onChange={inputsHandler}
@@ -86,7 +74,7 @@ const PopupWindow = ({ closePopup }) => {
                 <option value="sam">sam</option>
               </select>
             </td>
-            <td style={styles}>
+            <td>
               <input
                 type="text"
                 value={comment}
@@ -97,18 +85,14 @@ const PopupWindow = ({ closePopup }) => {
           </tr>
         </tbody>
       </table>
-      <div
-        style={{
-          display: 'flex',
-          padding: '10px',
-          justifyContent: 'end',
-          gap: '10px',
-        }}
-      >
-        <button style={btnStyles} onClick={() => setData([...data, rowData])}>
+      <div className="btn-group">
+        <button
+          className="btn"
+          onClick={() => setTableData([...tableData, rowData])}
+        >
           add
         </button>
-        <button style={btnStyles} onClick={closePopup}>
+        <button className="btn" onClick={e => closePopup(e, value)}>
           close
         </button>
       </div>

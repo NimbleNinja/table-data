@@ -1,13 +1,23 @@
-export const getRegions = () => {
+export const getRegions = data => {
   return Object.keys(data);
 };
 
-export const getYears = () => {
-  return [2017, 2018, 2019];
+export const getRegionYears = (data, region) => {
+  return Object.keys(data[region].G);
 };
 
-export const getRegionData = region => {
+export const getRegionData = (data, region) => {
   return data[region].G;
+};
+
+export const getYearKeys = (regionData, year) => {
+  const regionYears = Object.keys(regionData);
+
+  if (!regionYears.includes(year)) {
+    return ['', '', ''];
+  }
+
+  return Object.keys(regionData[year]);
 };
 
 export const data = {
