@@ -36,7 +36,7 @@ const PopupWindow = () => {
 
   const addRowData = () => {
     setTableData([...tableData, rowData]);
-    window.opener.postMessage(rowData.value);
+    window.opener.postMessage({ type: 'myCustomType', message: rowData.value });
   };
 
   const { value, date, user, comment } = rowData;

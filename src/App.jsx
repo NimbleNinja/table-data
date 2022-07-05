@@ -9,15 +9,20 @@ import { initialData } from './features/Table/data-table';
 function App() {
   const [tableData, setTableData] = useState(initialData);
   const [searchParams, setSearchParams] = useState(null);
+  const location = window.location.href;
 
   const showPopup = (e, params) => {
     setSearchParams(params);
 
-    window.open('modal', '_blank', 'width=800,height=400,left=200,top=200');
+    window.open(
+      `${location}modal`,
+      '_blank',
+      'width=800,height=400,left=200,top=200'
+    );
   };
 
   const closePopup = e => {
-    if (e.data.type) {
+    if (e.data.type !== 'myCustomType') {
       return;
     }
 
@@ -30,7 +35,7 @@ function App() {
           ...tableData[region].G,
           [year]: {
             ...tableData[region].G[year],
-            [key]: { value: e.data },
+            [key]: { value: e.data.message },
           },
         },
       },
