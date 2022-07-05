@@ -1,7 +1,22 @@
+import {
+  Button,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { popupData } from '../data-table';
 
-const PopupWindow = ({ closePopup }) => {
+const PopupWindow = () => {
   const [rowData, setRowData] = useState({
     value: 1,
     date: new Date(),
@@ -19,84 +34,106 @@ const PopupWindow = ({ closePopup }) => {
     });
   };
 
+  const addRowData = () => {
+    setTableData([...tableData, rowData]);
+    window.opener.postMessage(rowData.value);
+  };
+
   const { value, date, user, comment } = rowData;
 
   return (
-    <div className="popup">
-      <table>
-        <thead>
-          <tr>
-            <th>Value</th>
-            <th>Date</th>
-            <th>User</th>
-            <th>Comment</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map(({ value, date, user, comment }, index) => {
-            return (
-              <tr key={index}>
-                <td>{value}</td>
-                <td>{date.toLocaleDateString()}</td>
-                <td>{user}</td>
-                <td>{comment}</td>
-              </tr>
-            );
-          })}
-          <tr>
-            <td>
-              <input
-                value={value}
-                name="value"
-                onChange={inputsHandler}
-                type="number"
-              />
-            </td>
-            <td>
-              <input
-                value={date}
-                onChange={inputsHandler}
-                name="date"
-                type="date"
-              />
-            </td>
-            <td>
-              <select
-                value={user}
-                onChange={inputsHandler}
-                name="user"
-                id="user"
-              >
-                <option value="default user">default user</option>
-                <option value="max">max</option>
-                <option value="rom">rom</option>
-                <option value="alex">alex</option>
-                <option value="sam">sam</option>
-              </select>
-            </td>
-            <td>
-              <input
-                type="text"
-                value={comment}
-                name="comment"
-                onChange={inputsHandler}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="btn-group">
-        <button
-          className="btn"
-          onClick={() => setTableData([...tableData, rowData])}
-        >
-          add
-        </button>
-        <button className="btn" onClick={e => closePopup(e, value)}>
-          close
-        </button>
-      </div>
-    </div>
+    <>
+      <Typography variant="h4" align="center" sx={{ padding: '20px 0px' }}>
+        Popup table
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Value</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>User</TableCell>
+              <TableCell>Comment</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableData.map(({ value, date, user, comment }, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell>{value}</TableCell>
+                  <TableCell>{date.toLocaleDateString()}</TableCell>
+                  <TableCell>{user}</TableCell>
+                  <TableCell>{comment}</TableCell>
+                </TableRow>
+              );
+            })}
+            <TableRow>
+              <TableCell>
+                <TextField
+                  value={value}
+                  name="value"
+                  size="small"
+                  onChange={inputsHandler}
+                  variant="standard"
+                  type="number"
+                />
+              </TableCell>
+              <TableCell>
+                <input
+                  value={date}
+                  onChange={inputsHandler}
+                  name="date"
+                  type="date"
+                />
+              </TableCell>
+              <TableCell>
+                <Select
+                  variant="standard"
+                  value={user}
+                  name="user"
+                  onChange={inputsHandler}
+                >
+                  <MenuItem value="max">max</MenuItem>
+                  <MenuItem value="rom">rom</MenuItem>
+                  <MenuItem value="alex">alex</MenuItem>
+                  <MenuItem value="sam">sam</MenuItem>
+                </Select>
+              </TableCell>
+              <TableCell>
+                <TextField
+                  value={comment}
+                  name="comment"
+                  size="small"
+                  onChange={inputsHandler}
+                  variant="standard"
+                />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={4} align="right">
+                <Button
+                  sx={{ marginRight: '20px' }}
+                  size="small"
+                  variant="contained"
+                  onClick={addRowData}
+                >
+                  add
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => window.close()}
+                >
+                  close
+                </Button>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 

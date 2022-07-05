@@ -20,7 +20,7 @@ export const getYearKeys = (regionData, year) => {
   return Object.keys(regionData[year]);
 };
 
-export const data = {
+export const initialData = {
   Kyivska: {
     G: {
       2017: {
